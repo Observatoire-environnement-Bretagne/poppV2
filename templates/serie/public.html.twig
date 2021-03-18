@@ -1,0 +1,397 @@
+{%  extends "base.html.twig" %}
+
+{% block body %}
+<style>
+    #treeThesaurus .jstree-open > .jstree-anchor > .jstree-checkbox,
+    #treeThesaurus .jstree-closed > .jstree-anchor > .jstree-checkbox { display:none; }
+
+/*button:before (attr data-hover)*/
+    .pulse:hover:before{opacity: 1; transform: translate(0,0);}
+    .pulse:before{
+      content: attr(data-hover);
+      position: absolute;
+      margin-bottom: 0!important;
+      letter-spacing: .5px;
+      font-family: Roboto,-apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Arial,sans-serif;
+      line-height: 1.5;
+      font-size: 1rem;
+      margin-top: 0;
+      font-weight: 500;
+      opacity: 0;
+      transform: translate(-100%,0);
+      transition: all .3s ease-in-out;
+    }
+      /*button h6 (button text before hover)*/
+      .pulse:hover h6{opacity: 0; transform: translate(100%,0)}
+
+
+</style>
+<!-- ### $App Screen Content ### -->
+        <main class='main-content bgc-grey-100'>
+          <div id='mainContent'>
+            <div class="row gap-20 masonry pos-r">
+
+                {% include "custom/intro.html.twig" ignore missing %}
+
+              <div class="masonry-sizer col-md-12"></div>
+                <div class="masonry-item col-12">
+                <!-- #Site Visits ==================== -->
+                <div class="bd bgc-white">
+                  {% if app.request.get('message') != "" %}
+                    <div class="alert alert-success" id='messageAccueil'>
+                      <div>{{app.request.get('message')}}</div>
+                    </div>
+                  {% endif %}
+                  <div class="peers fxw-nw@lg+ ai-s">
+                    <div class="peer peer-greed w-60p@lg+ w-100@lg- p-20">
+                      <div class="layers">
+                        <div class="layer w-100 mB-10">
+                            <h6 class="lh-1">Le nombre de {{ parameters.dictionnaire.labelSeries }} est de : <b><span id='nbSerie'>{{app.session.get('critere_search_series')['series']|length}}</span></b></h6>
+                        </div>
+                        <div class="layer w-100">
+                            <!--script src="https://unpkg.com/ol-layerswitcher@3.4.0"></script>
+                            <link rel="stylesheet" href="https://unpkg.com/ol-layerswitcher@3.4.0/src/ol-layerswitcher.css" /-->
+                            <div id="map" class="col-12" style='height: 550px; position:relative; z-index:1; padding:0px'>
+                                <div id="bottompanel" class="col-12" style="z-index:2">
+                                    <span id="status"></span>
+                                    <span id="bottompanel-content"></span>
+                                </div>   
+                            </div>
+                            <div id="popup" class="ol-popup tooltip-arrow">
+                                <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                                <div id="popup-content"></div>
+                            </div>
+                            <div id="serieClicMap" class="col-12"></div>
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="peer bdL p-10 w-40p@lg+ w-100p@lg-">
+                      <div class="layers">
+                        <div class="layer w-100">
+                          <!-- Recherche -->
+                          <div class="layers">
+                            <!--div class=" mB-15"-->
+                              <div class="layer w-100 mB-10">
+                                  <input type='hidden' id='dataSearchThesaurus' value="{{ app.session.get('critere_search_series')['dataSearchThesaurus'] }}"/>
+                                  <!--button class="btn cur-p btn-primary" id='btnThesaurus'>&Eacute;lément de paysage</button-->
+                                  <div class="card left-align mT-10 w-100">
+                                    <button class="card-header w-100 cur-p pulse" style='text-align: left;' id='btnThesaurus' data-hover="Cliquer pour accéder au filtre">
+                                      <!--div>
+                                          &Eacute;lément de paysage
+                                          </div-->
+                                      <h6 class="mb-0 red-text">
+                                          &Eacute;lément de paysage
+                                      </h6>
+                                    </button>
+                                  </div>
+                              <!--/div-->
+                            </div>
+                            <div class="layer w-100">
+                                <div class="form-group row">
+                                    <label for="selectCom" class="col-sm-4 col-form-label">Commune</label>
+                                    <div class="col-sm-8">
+                                        <select id="selectCom" class="form-control chosen-select" tabindex="99">
+                                          <option value='all'>-Tout-</option>
+                                          {% for commune in Communes %}
+                                            {% if commune.communeId in app.session.get('critere_search_series')['comId'] %}
+                                              <option value="{{ commune.communeId }}" selected>{{ commune.communeInsee }} {{ commune.communeNom }}</option>
+                                            {% else %}
+                                              <option value="{{ commune.communeId }}">{{ commune.communeInsee }} {{ commune.communeNom }}</option>
+                                            {% endif %}
+                                              
+                                          {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layer w-100">
+                                  <div class="form-group row" style='margin-bottom: 0;'>
+                                      <label for="SelectOpp" class="col-sm-4 col-form-label">OPP</label>
+                                      <div class="col-sm-8">
+                                          <select id="SelectOpp" class="form-control">
+                                            <option value='all'>-Tout-</option>
+                                            {% for oppId, oppNom in Opps %}
+                                              {% if oppId in app.session.get('critere_search_series')['oppId'] %}
+                                                <option value="{{ oppId }}" selected>{{ oppNom }}</option>
+                                              {% else %}
+                                                <option value="{{ oppId }}">{{ oppNom }}</option>
+                                              {% endif %}
+                                            {% endfor %}
+                                          </select>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                            <div id="accordion" style='width:100%'>
+                                <div class="card left-align mT-10 w-100">
+                                  <div class="card-header" role="tab" id="heading-search-paysage">
+                                      <a data-toggle="collapse" data-parent="#accordion" href="#collapse-search-paysage" aria-expanded="true" aria-controls="collapse-search-paysage">
+                                          <h6 class="mb-0 red-text">
+                                              Paysage
+                                          </h6>
+                                      </a>
+                                  </div>
+                                  <div id="collapse-search-paysage" class="collapse p-10" role="tabpanel" aria-labelledby="heading-search-paysage" data-parent="#accordion">
+                                    <div class="layer w-100">
+                                        <div class="form-group row">
+                                            <label for="selectTypo" class="col-sm-4 col-form-label">{{parameters.dictionnaire.labelTypologiePaysage|capitalize}}</label>
+                                            <div class="col-sm-8">
+                                                <select id="selectTypo" class="form-control">
+                                                  <option value='all'>-Tout-</option>
+                                                  {% for typologiePaysageId, typologiePaysageNom in TypologiePaysages %}
+                                                    {% if typologiePaysageId in app.session.get('critere_search_series')['typoId'] %}
+                                                      <option value="{{ typologiePaysageId }}" selected>{{ typologiePaysageNom }}</option>
+                                                    {% else %}
+                                                      <option value="{{ typologiePaysageId }}">{{ typologiePaysageNom }}</option>
+                                                    {% endif %}
+                                                  {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layer w-100">
+                                        <div class="form-group row">
+                                            <label for="selectAxeThe" class="col-sm-4 col-form-label">Th&eacute;matique paysagère</label>
+                                            <div class="col-sm-8">
+                                                <select id="selectAxeThe" class="form-control">
+                                                  <option value='all'>-Tout-</option>
+                                                  {% for axeThematicId, axeThematicNom in AxeThematics %}
+                                                    {% if axeThematicId in app.session.get('critere_search_series')['axeTheId'] %}
+                                                      <option value="{{ axeThematicId }}" selected>{{ axeThematicNom }}</option>
+                                                    {% else %}
+                                                      <option value="{{ axeThematicId }}">{{ axeThematicNom }}</option>
+                                                    {% endif %}
+                                                  {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layer w-100">
+                                        <div class="form-group row" >
+                                            <label for="selectEnsPay" class="col-sm-4 col-form-label">{{parameters.dictionnaire.labelEnsemblePaysager|capitalize}}</label>
+                                            <div class="col-sm-8">
+                                                <select id="selectEnsPay" class="form-control">
+                                                  <option value='all' >-Tout-</option>
+                                                  {% for ensemblePaysagerId, ensemblePaysagerNom in EnsemblePaysagers %}
+                                                    {% if ensemblePaysagerId in app.session.get('critere_search_series')['ensPayId'] %}
+                                                      <option value="{{ ensemblePaysagerId }}" selected>{{ ensemblePaysagerNom }}</option>
+                                                    {% else %}
+                                                      <option value="{{ ensemblePaysagerId }}">{{ ensemblePaysagerNom }}</option>
+                                                    {% endif %}
+                                                      
+                                                  {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layer w-100">
+                                        <div class="form-group row" style='margin-bottom: 0;'>
+                                            <label for="selectUniPay" class="col-sm-4 col-form-label">Unit&eacute; paysag&egrave;re</label>
+                                            <div class="col-sm-8">
+                                                <select id="selectUniPay" class="form-control">
+                                                  <option value='all'>-Tout-</option>
+                                                  {% for unitePaysageId, unitePaysageNom in UnitePaysages %}
+                                                    {% if unitePaysageId in app.session.get('critere_search_series')['uniPayId'] %}
+                                                      <option value="{{ unitePaysageId }}" selected>{{ unitePaysageNom }}</option>
+                                                    {% else %}
+                                                      <option value="{{ unitePaysageId }}">{{ unitePaysageNom }}</option>
+                                                    {% endif %}
+                                                  {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            
+                                <div class="card left-align w-100  mT-10">
+                                  <div class="card-header" role="tab" id="heading-search-avancee">
+                                      <a data-toggle="collapse" data-parent="#accordion" href="#collapse-search-avancee" aria-expanded="true" aria-controls="collapse-search-avancee">
+                                          <h6 class="mb-0 red-text">
+                                              Recherche avancée
+                                          </h6>
+                                      </a>
+                                  </div>
+                                  <div id="collapse-search-avancee" class="collapse indent p-10" role="tabpanel" aria-labelledby="heading-search-avancee" data-parent="#accordion">
+                                    <div class="layer w-100">
+                                        <div class="form-group row">
+                                            <label for="SelectAnn" class="col-sm-4 col-form-label">Ann&eacute;es</label>
+                                            <div class="col-sm-8">
+                                                <select id="SelectAnn" class="form-control">
+                                                  <option value='all'>-Tout-</option>
+                                                  {% for year in tabYearPhoto %}
+                                                    {% if year in app.session.get('critere_search_series')['ann'] %}
+                                                      <option value="{{ year }}" selected>{{ year }}</option>
+                                                    {% else %}
+                                                      <option value="{{ year }}">{{ year }}</option>
+                                                    {% endif %}
+                                                  {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layer w-100">
+                                        <div class="form-group row">
+                                            <label for="SelectIdSer" class="col-sm-4 col-form-label">Identifiant {{ parameters.dictionnaire.labelArtAndSerie }}</label>
+                                            <div class="col-sm-8">
+                                                <select id="SelectIdSer" class="form-control">
+                                                  <option value='all'>-Tout-</option>
+                                                  {% for serie in Series %}
+                                                    {% if serie.serieId in app.session.get('critere_search_series')['serId'] %}
+                                                      <option value="{{ serie.serieId }}" selected>{{ serie.serieIdentifiantSerie }}</option>
+                                                    {% else %}
+                                                      <option value="{{ serie.serieId }}">{{ serie.serieIdentifiantSerie }}</option>
+                                                    {% endif %}
+                                                  {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layer w-100">
+                                        <div class="form-group row">
+                                            <label for="SelectStructureOpp" class="col-sm-4 col-form-label">Structure OPP</label>
+                                            <div class="col-sm-8">
+                                                <select id="SelectStructureOpp" class="form-control">
+                                                  <option value='all'>-Tout-</option>
+                                                  {% for porteurOppId, porteurOppNom in structuresOpp %}
+                                                    {% if porteurOppId in app.session.get('critere_search_series')['porteurOppId'] %}
+                                                      <option value="{{ porteurOppId }}" selected>{{ porteurOppNom }}</option>
+                                                    {% else %}
+                                                      <option value="{{ porteurOppId }}">{{ porteurOppNom }}</option>
+                                                    {% endif %}
+                                                  {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                            
+                              <div class="card left-align w-100 mT-10">
+                                <div class="card-header" role="tab" id="heading-search-localisation">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse-search-localisation" aria-expanded="true" aria-controls="collapse-search-localisation">
+                                        <h6 class="mb-0 red-text">
+                                          Localisation
+                                        </h6>
+                                    </a>
+                                </div>
+                                <div id="collapse-search-localisation" class="collapse indent p-10" role="tabpanel" aria-labelledby="heading-search-localisation" data-parent="#accordion">
+                                  <div class="layer w-100">
+                                      <div class="form-group row">
+                                          <label for="selectDep" class="col-sm-4 col-form-label">D&eacute;partement</label>
+                                          <div class="col-sm-8">
+                                              <select id="selectDep" class="form-control">
+                                                <option value='all'>-Tout-</option>
+                                                {% for departementId, departementNom in Departements %}
+                                                  {% if departementId in app.session.get('critere_search_series')['depId'] %}
+                                                    <option value="{{ departementId }}" selected>{{ departementNom }}</option>
+                                                  {% else %}
+                                                    <option value="{{ departementId }}">{{ departementNom }}</option>
+                                                  {% endif %}
+                                                {% endfor %}
+                                              </select>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="layer w-100">
+                                      <div class="form-group row">
+                                          <label for="selectReg" class="col-sm-4 col-form-label">R&eacute;gion</label>
+                                          <div class="col-sm-8">
+                                              <select id="selectReg" class="form-control">
+                                                <option value='all'>-Tout-</option>
+                                                {% for regionId, regionNom in Regions %}
+                                                  {% if regionId == (app.session.get('critere_search_series')['regId']|join) %}
+                                                    <option value="{{ regionId }}" selected>{{ regionNom }}</option>
+                                                  {% else %}
+                                                    <option value="{{ regionId }}">{{ regionNom }}</option>
+                                                  {% endif %}
+                                                {% endfor %}
+                                              </select>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="layer w-100">
+                                      <div class="form-group row">
+                                          <label for="selectPay" class="col-sm-4 col-form-label">Pays </label>
+                                          <div class="col-sm-8">
+                                              <select id="selectPay" class="form-control">
+                                                <option value='all'>-Tout-</option>
+                                                {% for paysId, paysNom in Pays %}
+                                                  {% if paysId in app.session.get('critere_search_series')['payId'] %}
+                                                    <option value="{{ paysId }}" selected>{{ paysNom }}</option>
+                                                  {% else %}
+                                                    <option value="{{ paysId }}">{{ paysNom }}</option>
+                                                  {% endif %}
+                                                {% endfor %}
+                                              </select>
+                                          </div>
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="peer w-100 mT-10">
+                              <button class="btn cur-p btn-primary" id='search'>Rechercher</button>
+                              <button class="btn cur-p btn-secondary" id='removeSearch'>Réinitaliser la recherche</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+{#              <div id='listClickMapSeriePhoto' class="mB-100">
+                    <div class="masonry-item col-12 cur-p btn-outline-success" style="position:absolute;left:0px;top:922px;">
+                        <div class="bd bgc-white p-10">
+                            <h6 class="c-grey-900" id="listClickMapSeriePhotoTitle">Test</h6>
+                            <div class="mT-10">
+                                <div class="peers fxw-nw@lg+ ta-c gap-10" style="height:110px">
+                                    <div class="peer">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              </div>#}
+              <div id='listClickMapSeriePhoto' ></div>
+              <div id='listeSeries' ></div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="thesaurusModal" tabindex="-1" role="dialog" aria-labelledby="thesaurusModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="thesaurusModalLabel">Recherche par élément de paysage et par type d’évolution</h5>
+                <button type="button" class="close cleanThesaurus" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>Cliquez sur une cat&eacute;gorie pour voir les éléments de paysage. Si vous ne choisissez aucun type d'&eacute;volution, les photographies contenant l&apos;&eacute;l&eacute;ment seront recherch&eacute;es.</p>
+                <div id="treeThesaurus"></div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary cur-p cleanThesaurus" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary cur-p" id='searchThesaurus'>Valider</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        </div>
+      </div>
+    </main>
+    <script>
+    window.addEventListener('load', () => {
+        var elem = document.getElementById('map').parentNode.parentNode.parentNode,
+            properties = window.getComputedStyle(elem, null),
+            height = properties.height,
+            width = properties.width;
+
+            document.getElementById("map").style.height = (parseInt(height ,10) - 34).toString() + 'px' ;
+
+        });        
+
+    </script>
+{%  endblock body %}

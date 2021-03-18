@@ -1,0 +1,25 @@
+import * as $ from 'jquery';
+import 'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js';
+import 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css';
+
+export default (function () {
+
+$.fn.datepicker.dates.fr = {
+  days:["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"],
+  daysShort:["dim.","lun.","mar.","mer.","jeu.","ven.","sam."],
+  daysMin:["d","l","ma","me","j","v","s"],
+  months:["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"],
+  monthsShort:["janv.","févr.","mars","avril","mai","juin","juil.","août","sept.","oct.","nov.","déc."],
+  today:"Aujourd'hui",
+  monthsTitle:"Mois",
+  clear:"Effacer",
+  weekStart:1,
+  format:"dd/mm/yyyy"};
+
+
+  $(".date-picker").datepicker({
+    language: 'fr'
+  });
+  /*$('.start-date').datepicker();
+  $('.end-date').datepicker();*/
+}())
