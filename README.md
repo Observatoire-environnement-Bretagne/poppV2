@@ -9,7 +9,7 @@
 
 ## Developers
 
-### Instalation
+### Installation
 
 __Create application user and run HTTP server__
 ```shell
