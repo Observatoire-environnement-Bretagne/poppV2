@@ -123,9 +123,9 @@ La POPP-Breizh a comme particularité de renseigner pour chaque série OPP les �
 
 ## 6	Les tutoriels de la POPP-Breizh 
 Il existe d’ores et déjà quatre tutoriels qui correspondent aux trois profils d’utilisateurs : 
-* Tutoriel administrateur de la POPP-Breizh : https://popp.applis-bretagne.fr/sites/default/files/tutoriel_administrer_la_popp_breizh.pdf 
-* Tutoriel gestionnaire de la POPP-Breizh (pilotage d’un OPP) : https://popp.applis-bretagne.fr/sites/default/files/tutoriel_gestionnaire_opp_POPP.pdf 
-* Tutoriel fournisseur de la POPP-Breizh (fournisseur d’une ou plusieurs séries OPP) : https://popp.applis-bretagne.fr/sites/default/files/tutoriel_devenir_fournisseur_de_la_POPP_Breizh.pdf 
+* Tutoriel administrateur de la POPP-Breizh : *bientôt disponible*
+* Tutoriel gestionnaire de la POPP-Breizh (pilotage d’un OPP) : http://popp-breizh.fr/files//faq/tutoriel_gestionnaire_opp_POPP_0.pdf
+* Tutoriel fournisseur de la POPP-Breizh (fournisseur d’une ou plusieurs séries OPP) : http://popp-breizh.fr/files//faq/tutoriel_devenir_fournisseur_de_la_POPP_Breizh_0.pdf
 * Tutoriel créer une série OPP (ou OPP Pa) dans la POPP-Breizh : http://popp-breizh.fr/files//faq/tutoriel_creer_series_OPP_popp_breizh_2021.pdf 
 
 
