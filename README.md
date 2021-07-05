@@ -14,7 +14,7 @@
 *	Cahier des charges des clauses techniques : https://hal.archives-ouvertes.fr/hal-01079835 
 *	Charte d’utilisation de la POPP-Breizh : http://popp-breizh.fr/files//faq/Charte%20d'utilisation_POPP%20BREIZH_26_mars_2019_0.pdf
 
-### 1.2 1.2	Les prérequis pour déployer une POPP
+### 1.2 Les prérequis pour déployer une POPP
 *	Compétence en informatique : moyenne
   JavaScript ; CSS 
 
@@ -100,6 +100,33 @@ La POPP a été co-construite par des institutions, merci de citer la paternité
 ### 4.3 Prescriptions
 La licence GPLv3 facilite la coopération avec la communauté du logiciel libre. Les co-auteurs de la POPP-Breizh souhaitent que les développeurs publient sur Github l’ensemble des évolutions réalisées pour améliorer le logiciel POPP. Ce partage bénéficiera à la communauté de la POPP (développeurs et utilisateurs) et permettra des économies de moyens. 
 Il est demandé par les co-auteurs de la POPP-Breizh que les autres POPP soient également sus la licence GPLV3.  
+
+## 5 Préconisations pour la communauté des POPP 
+### 5.1 Construire un réseau POPP
+Si plusieurs POPP se développent en France et à l’international, il serait pertinent de constituer un réseau de POPP. En effet, animer un réseau de l’ensemble des POPP déployés dans les régions permettrait : 
+*	de mettre en commun les besoins, 
+*	de mutualiser les compétences, 
+*	de suivre les évolutions développées potentiellement en partenariat, 
+*	de partager les développements informatiques 
+*	de partager des préoccupations paysagères er de développer un tronc commun pour un moissonnage des données à l’échelle des POPP.
+
+### 5.2 Conserver un tronc commun pour un moissonnage éventuel des POPP
+La POPP-Breizh a comme particularité de renseigner pour chaque série OPP les éléments de paysage (haie agricole, maison individuelle, etc.) qui sont visibles au sein des images et les types de changement qui leur sont associés (augmentation, diminution, etc.).  Il serait intéressant que chaque POPP utilise un tronc commun de requêtes pour qu’à terme les données photographiques puissent être partageables à partir des mêmes filtres via le réseau de POPP. Voici quelques exemples de filtres partageables, et qui sont à enrichir par la communauté : 
+*	Typologie de paysage : paysage urbain, périurbain et centre-ville ; paysage littoral et d’îles ; paysage de vallée, paysage rural, naturel et de forêt ; paysage de plaine et de plateau 
+*	Même format de date : année 
+*	Thésaurus tronc commun composé aujourd’hui de 173 éléments de paysage
+*	Sept typologies de changement : stabilité, apparition, disparition, modification, augmentation, diminution, changement d’aspect
+
+*Fonctionnement du thésaurus : http://popp-breizh.fr/files//faq/tutoriel_creer_series_OPP_popp_breizh_2021.pdf (p. 6, 7, 15, 16)*
+
+## 6	Les tutoriels de la POPP-Breizh 
+Il existe d’ores et déjà quatre tutoriels qui correspondent aux trois profils d’utilisateurs : 
+* Tutoriel administrateur de la POPP-Breizh : https://popp.applis-bretagne.fr/sites/default/files/tutoriel_administrer_la_popp_breizh.pdf 
+* Tutoriel gestionnaire de la POPP-Breizh (pilotage d’un OPP) : https://popp.applis-bretagne.fr/sites/default/files/tutoriel_gestionnaire_opp_POPP.pdf 
+* Tutoriel fournisseur de la POPP-Breizh (fournisseur d’une ou plusieurs séries OPP) : https://popp.applis-bretagne.fr/sites/default/files/tutoriel_devenir_fournisseur_de_la_POPP_Breizh.pdf 
+* Tutoriel créer une série OPP (ou OPP Pa) dans la POPP-Breizh : http://popp-breizh.fr/files//faq/tutoriel_creer_series_OPP_popp_breizh_2021.pdf 
+
+
 
 
 
