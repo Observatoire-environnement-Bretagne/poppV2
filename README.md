@@ -6,6 +6,8 @@
 *Observatoire de l’Environnement en Bretagne / Pôle nature et paysages – Caroline Guittet*    
 *caroline.guittet@bretagne-environnement.fr / 02 99 35 84 86*    
 
+![Screenshot](screen_popp.PNG)
+
 ## 1. Présentation de la POPP-Breizh
 ### 1.1 Présentation de la POPP Breizh
 
