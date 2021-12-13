@@ -14,7 +14,7 @@
 *	Lien de la POPP-Breizh : http://popp-breizh.fr
 *	Présentation des fonctionnalités de la POPP-Breizh : http://popp-breizh.fr/files//ressource/presentation_popp_breizh_1.pdf? 
 *	Cahier des charges des clauses techniques : https://hal.archives-ouvertes.fr/hal-01079835 
-*	Charte d’utilisation de la POPP-Breizh : http://popp-breizh.fr/files//faq/Charte%20d'utilisation_POPP%20BREIZH_26_mars_2019_0.pdf
+*	Charte d’utilisation de la POPP-Breizh : http://popp-breizh.fr/files//faq/charte_utilisation_popp_breizh_2021.pdf
 
 ### 1.2 Les prérequis pour déployer une POPP
 *	Compétence en informatique : moyenne
@@ -119,14 +119,14 @@ La POPP-Breizh a comme particularité de renseigner pour chaque série OPP les �
 *	Thésaurus tronc commun composé aujourd’hui de 173 éléments de paysage
 *	Sept typologies de changement : stabilité, apparition, disparition, modification, augmentation, diminution, changement d’aspect
 
-*Fonctionnement du thésaurus : http://popp-breizh.fr/files//faq/tutoriel_creer_series_OPP_popp_breizh_2021.pdf (p. 6, 7, 15, 16)*
+*Fonctionnement du thésaurus : http://popp-breizh.fr/files//faq/tutoriel_creer_series_opp_popp_breizh_2021.pdf *
 
 ## 6	Les tutoriels de la POPP-Breizh 
 Il existe d’ores et déjà quatre tutoriels qui correspondent aux trois profils d’utilisateurs : 
-* Tutoriel administrateur de la POPP-Breizh : *bientôt disponible*
-* Tutoriel gestionnaire de la POPP-Breizh (pilotage d’un OPP) : http://popp-breizh.fr/files//faq/tutoriel_gestionnaire_opp_POPP_0.pdf
-* Tutoriel fournisseur de la POPP-Breizh (fournisseur d’une ou plusieurs séries OPP) : http://popp-breizh.fr/files//faq/tutoriel_devenir_fournisseur_de_la_POPP_Breizh_0.pdf
-* Tutoriel créer une série OPP (ou OPP Pa) dans la POPP-Breizh : http://popp-breizh.fr/files//faq/tutoriel_creer_series_OPP_popp_breizh_2021.pdf 
+* Tutoriel administrateur de la POPP-Breizh : http://popp-breizh.fr/files//faq/tutoriel_administrer_popp_breizh_2021.pdf 
+* Tutoriel gestionnaire de la POPP-Breizh (pilotage d’un OPP) : http://popp-breizh.fr/files//faq/tutoriel_gestionnaire_opp_popp_breizh_2021_0.pdf 
+* Tutoriel fournisseur de la POPP-Breizh (fournisseur d’une ou plusieurs séries OPP) : http://popp-breizh.fr/files//faq/tutoriel_devenir_fournisseur_popp_breizh_2021.pdf 
+* Tutoriel créer une série OPP (ou OPP Pa) dans la POPP-Breizh : http://popp-breizh.fr/files//faq/tutoriel_creer_series_opp_popp_breizh_2021.pdf
 
 
 
